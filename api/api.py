@@ -40,7 +40,7 @@ async def post_user(req):
         data={'address': address,
               'vars': dumps({k: req.json.get(k, '') for k in fields}),
               'subscribed': 'no',
-              'upsert': 'yes'},
+              'upsert': 'no'},
     )
     if res.status_code != 200:
         return json(res.json(), status=res.status_code)
