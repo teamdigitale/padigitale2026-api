@@ -1,15 +1,6 @@
-import os
-
 from sanic import Sanic
-from sanic.response import json
+from .api import bp
 
 
 app = Sanic(name="app")
-
-@app.route('/api/date', methods=['GET'])
-async def get_ldate(request):
-    return json({'date': 'today!', 'secret': os.environ['SECRET']})
-
-@app.route('/api/users', methods=['POST'])
-async def post_user(req):
-    return json({'user': req.json})
+app.blueprint(bp)
