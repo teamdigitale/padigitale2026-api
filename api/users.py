@@ -22,7 +22,7 @@ class handler(BaseHTTPRequestHandler):
       headers=self.headers,
       environ={'REQUEST_METHOD': 'POST'}
     )
-    foo = form.getvalue("foo"))
+    foo = form.getvalue("foo")
     out = json.dumps({'foo': foo, 'status': 'ok'})
     self.wfile.write(out)
     return
