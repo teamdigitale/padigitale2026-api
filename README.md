@@ -1,6 +1,6 @@
 # ProssimaPA API
 
-# `POST /api/users` 
+## `POST /api/users` 
 ```json
 {
  "address": "email.address@example.org",
@@ -11,7 +11,7 @@
 }
 ```
 
-# `PUT /api/users/<address>/confirm`
+## `PUT /api/users/<address>/confirm`
 ```json
 {"jwt": "..."}
 ```
