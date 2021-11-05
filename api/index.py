@@ -3,10 +3,10 @@ from sanic.response import json
 app = Sanic()
 
 
-@app.route('/date', methods=['GET'])
+@app.route('/api/date', methods=['GET'])
 async def get_ldate(request):
     return json({'date': 'today!'})
 
-@app.route('/users', methods=['POST'])
+@app.route('/api/users', methods=['POST'])
 async def post_user(req):
     return json({'user': req.json})
