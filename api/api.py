@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from json import dumps
 
 import jwt
@@ -46,7 +46,7 @@ async def post_user(req):
         return json(res.json(), status=res.status_code)
 
     signed_jwt = jwt.encode(
-        {"exp": datetime.now(tz=timezone.utc) + datetime.timedelta(days=7),
+        {"exp": datetime.now(tz=timezone.utc) + timedelta(days=7),
          "iat": datetime.now(tz=timezone.utc)},
         JWT_KEY
     )
