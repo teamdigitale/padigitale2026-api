@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timezone
 from json import dumps
 
 import jwt
@@ -11,14 +12,12 @@ JWT_KEY = os.environ.get('JWT_KEY', '')
 
 bp = Blueprint("api", url_prefix="/api")
 
-@bp.route('/users', methods=['PUT'])
-async def confirm_user(req):
+@bp.route('/users/<address>/confirm', methods=['PUT'])
+async def confirm_user(req, address):
     try:
-        signed_jwt = jwt.decode(req.json.get('jwt', ''), key=JWT_KEY, algorithms="HS256")
+        jwt.decode(req.json.get('jwt', ''), key=JWT_KEY, algorithms="HS256")
     except jwt.exceptions.InvalidTokenError as exc:
         return json({'message': f"{exc}"}, status=400)
-
-    address = signed_jwt['address']
 
     res = requests.put(
         f"https://api.eu.mailgun.net/v3/lists/newsletter@prossimapa.gov.it/members/{address}",
@@ -46,7 +45,11 @@ async def post_user(req):
     if res.status_code != 200:
         return json(res.json(), status=res.status_code)
 
-    signed_jwt = jwt.encode(payload={'address': address}, key=JWT_KEY)
+    signed_jwt = jwt.encode(
+        {"exp": datetime.now(tz=timezone.utc) + datetime.timedelta(days=7),
+         "iat": datetime.now(tz=timezone.utc)},
+        JWT_KEY
+    )
 
     res = requests.post(
         "https://api.eu.mailgun.net/v3/prossimapa.gov.it/messages",
