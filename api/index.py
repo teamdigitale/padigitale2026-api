@@ -2,8 +2,9 @@ import os
 
 from sanic import Sanic
 from sanic.response import json
-app = Sanic()
 
+
+app = Sanic(name="app")
 
 @app.route('/api/date', methods=['GET'])
 async def get_ldate(request):
