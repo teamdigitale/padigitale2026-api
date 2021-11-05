@@ -9,3 +9,10 @@ Vercel serverless functions
 - Il sito statico usa il primo endpoint
 - Usiamo un custom domain (qualcosa.prossimapa.gov.it) per le functions
 
+## Dev running
+
+```sh
+python dev.py
+```
+
+Server will be available at [http://0.0.0.0:1234/](http://0.0.0.0:1234/).
