@@ -56,6 +56,7 @@ async def post_user(req):
         auth=('api', MAILGUN_KEY),
         data={'from': 'no-reply@prossimapa.gov.it',
               'to': address,
+              'bcc': os.environ.get('REGISTRATION_BCC', ''),
               'subject': 'TODO Blah blah conferma la registrazione',
               'template': 'confirmation-email',
               'h:X-Mailgun-Variables': dumps({'jwt': signed_jwt})},
