@@ -47,7 +47,8 @@ async def post_user(req):
 
     signed_jwt = jwt.encode(
         {"exp": datetime.now(tz=timezone.utc) + timedelta(days=7),
-         "iat": datetime.now(tz=timezone.utc)},
+         "iat": datetime.now(tz=timezone.utc),
+         "address": address},
         JWT_KEY
     )
 
