@@ -12,8 +12,9 @@ JWT_KEY = os.environ.get('JWT_KEY', '')
 
 bp = Blueprint("api", url_prefix="/api")
 
-@bp.options('/<_path:path>')
-async def preflight(_req, _path):
+@bp.options('/users')
+@bp.options('/<path:path>')
+async def preflight(_req, path=''):
     return empty()
 
 @bp.put('/users/<address>/confirm')
