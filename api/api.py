@@ -12,7 +12,7 @@ JWT_KEY = os.environ.get('JWT_KEY', '')
 
 bp = Blueprint("api", url_prefix="/api")
 
-@bp.route('/users/<address>/confirm', methods=['PUT'])
+@bp.route('/users/<address>/confirm', methods=['PUT', 'OPTIONS'])
 async def confirm_user(req, address):
     try:
         jwt.decode(req.json.get('jwt', ''), key=JWT_KEY, algorithms="HS256")
@@ -29,7 +29,7 @@ async def confirm_user(req, address):
 
     return json({'message': 'ok'})
 
-@bp.route('/users', methods=['POST'])
+@bp.route('/users', methods=['POST', 'OPTIONS'])
 async def post_user(req):
     address = req.json.get('address', '')
     fields = ['representative', 'ente', 'enteSelect', 'message']
