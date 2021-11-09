@@ -5,14 +5,19 @@ from json import dumps
 import jwt
 import requests
 from sanic import Blueprint
-from sanic.response import json
+from sanic.response import empty, json
 
 MAILGUN_KEY = os.environ.get('MAILGUN_KEY', '')
 JWT_KEY = os.environ.get('JWT_KEY', '')
 
 bp = Blueprint("api", url_prefix="/api")
 
-@bp.route('/users/<address>/confirm', methods=['PUT'])
+@bp.options('/users')
+@bp.options('/<path:path>')
+async def preflight(_req, path=''):
+    return empty()
+
+@bp.put('/users/<address>/confirm')
 async def confirm_user(req, address):
     try:
         jwt.decode(req.json.get('jwt', ''), key=JWT_KEY, algorithms="HS256")
@@ -29,7 +34,7 @@ async def confirm_user(req, address):
 
     return json({'message': 'ok'})
 
-@bp.route('/users', methods=['POST'])
+@bp.post('/users')
 async def post_user(req):
     address = req.json.get('address', '')
     fields = ['representative', 'ente', 'enteSelect', 'message']

@@ -4,7 +4,8 @@
         "dest": "api/index.py",
         "headers": {
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST, PUT, OPTIONS"
+            "Access-Control-Allow-Methods": "POST, PUT, OPTIONS",
+             "Access-Control-Allow-Headers": "*"
         }
     }]
 }
