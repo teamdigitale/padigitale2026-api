@@ -63,7 +63,7 @@ async def post_user(req):
         data={'from': 'no-reply@padigitale2026.gov.it',
               'to': address,
               'bcc': os.environ.get('REGISTRATION_BCC', ''),
-              'subject': 'TODO Blah blah conferma la registrazione',
+              'subject': 'PA digitale 2026 - conferma la registrazione',
               'template': 'confirmation-email',
               'h:X-Mailgun-Variables': dumps({'jwt': signed_jwt})},
     )
