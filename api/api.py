@@ -25,7 +25,7 @@ async def confirm_user(req, address):
         return json({'message': f"{exc}"}, status=400)
 
     res = requests.put(
-        f"https://api.eu.mailgun.net/v3/lists/newsletter@prossimapa.gov.it/members/{address}",
+        f"https://api.eu.mailgun.net/v3/lists/newsletter@padigitale2026.gov.it/members/{address}",
         auth=('api', MAILGUN_KEY),
         data={'subscribed': 'yes'},
     )
@@ -40,7 +40,7 @@ async def post_user(req):
     fields = ['representative', 'ente', 'enteSelect', 'message']
 
     res = requests.post(
-        "https://api.eu.mailgun.net/v3/lists/newsletter@prossimapa.gov.it/members",
+        "https://api.eu.mailgun.net/v3/lists/newsletter@padigitale2026.gov.it/members",
         auth=('api', MAILGUN_KEY),
         data={'address': address,
               'vars': dumps({k: req.json.get(k, '') for k in fields}),
@@ -58,9 +58,9 @@ async def post_user(req):
     )
 
     res = requests.post(
-        "https://api.eu.mailgun.net/v3/prossimapa.gov.it/messages",
+        "https://api.eu.mailgun.net/v3/padigitale2026.gov.it/messages",
         auth=('api', MAILGUN_KEY),
-        data={'from': 'no-reply@prossimapa.gov.it',
+        data={'from': 'no-reply@padigitale2026.gov.it',
               'to': address,
               'bcc': os.environ.get('REGISTRATION_BCC', ''),
               'subject': 'TODO Blah blah conferma la registrazione',
