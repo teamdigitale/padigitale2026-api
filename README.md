@@ -7,6 +7,7 @@
  "representative": "Name Lastname",
  "ente": "Foobar",
  "enteSelect": "Baz",
+ "messageSelect": "foo-bar",
  "message": "Hello world"
 }
 ```

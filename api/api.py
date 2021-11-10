@@ -37,7 +37,7 @@ async def confirm_user(req, address):
 @bp.post('/users')
 async def post_user(req):
     address = req.json.get('address', '')
-    fields = ['representative', 'ente', 'enteSelect', 'message']
+    fields = ['representative', 'ente', 'enteSelect', 'messageSelect', 'message']
 
     res = requests.post(
         "https://api.eu.mailgun.net/v3/lists/newsletter@prossimapa.gov.it/members",
