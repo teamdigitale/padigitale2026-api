@@ -12,9 +12,33 @@
 }
 ```
 
+### Response
+#### Ok
+HTTP code 200
+```json
+{"message": "ok"}
+```
+#### Recipient already registered
+HTTP code 400
+```json
+{"message": "Address already exists 'email.address@example.org'"}
+```
+
 ## `PUT /api/users/<address>/confirm`
 ```json
 {"jwt": "..."}
+```
+
+### Response
+#### Ok
+HTTP code 200
+```json
+{"message": "ok"}
+```
+#### Signature verification failed
+HTTP code 400
+```json
+{"message":"Signature verification failed"}
 ```
 
 ## Dev running
