@@ -6,6 +6,7 @@
  "address": "email.address@example.org",
  "representative": "Name Lastname",
  "ente": "Foobar",
+ "enteType": "Foo",
  "enteSelect": "Baz",
  "messageSelect": "foo-bar",
  "message": "Hello world"
