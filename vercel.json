@@ -7,5 +7,8 @@
             "Access-Control-Allow-Methods": "POST, PUT, OPTIONS",
              "Access-Control-Allow-Headers": "*"
         }
-    }]
+    }],
+    "github": {
+        "silent": true
+    }
 }
