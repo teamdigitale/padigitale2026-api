@@ -60,7 +60,7 @@ async def post_user(req):
     res = requests.post(
         "https://api.eu.mailgun.net/v3/padigitale2026.gov.it/messages",
         auth=('api', MAILGUN_KEY),
-        data={'from': 'no-reply@padigitale2026.gov.it',
+        data={'from': 'PA digitale 2026 <no-reply@padigitale2026.gov.it>',
               'to': address,
               'bcc': os.environ.get('REGISTRATION_BCC', ''),
               'subject': 'PA digitale 2026 - conferma la registrazione',
