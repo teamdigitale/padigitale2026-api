@@ -26,7 +26,7 @@ async def confirm_user(req, address):
         return json({'message': f"{exc}"}, status=400)
 
     res = requests.put(
-        f"https://api.eu.mailgun.net/v3/lists/newsletter@padigitale2026.gov.it/members/{address}:{unique_id}",
+        f"https://api.eu.mailgun.net/v3/lists/newsletter@padigitale2026.gov.it/members/{address}.{unique_id}",
         auth=('api', MAILGUN_KEY),
         data={'subscribed': 'yes'},
     )
@@ -62,7 +62,7 @@ async def post_user(req):
     res = requests.post(
         "https://api.eu.mailgun.net/v3/lists/newsletter@padigitale2026.gov.it/members",
         auth=('api', MAILGUN_KEY),
-        data={'address': f"{address}:{unique_id}",
+        data={'address': f"{address}.{unique_id}",
               'vars': dumps({k: req.json.get(k, '') for k in fields}),
               'subscribed': 'no',
               'upsert': 'no'},
