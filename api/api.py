@@ -19,7 +19,7 @@ async def preflight(_req, path=''):
     return empty()
 
 @bp.put('/users/<address>/<unique_id>/confirm')
-async def confirm_user(req, address):
+async def confirm_user(req, address, unique_id):
     try:
         jwt.decode(req.json.get('jwt', ''), key=JWT_KEY, algorithms="HS256")
     except jwt.exceptions.InvalidTokenError as exc:
