@@ -40,7 +40,7 @@ async def confirm_user(req, address, unique_id):
         auth=('api', MAILGUN_KEY),
         data={'from': 'PA digitale 2026 <no-reply@padigitale2026.gov.it>',
               'to': 'info@padigitale2026.gov.it',
-              'subject': 'Messaggio dal form - PA digitale 2026',
+              'subject': f"Messaggio dal form - PA digitale 2026 - {address}",
               'template': 'forward-email',
               'h:Reply-To': address,
               'h:X-Mailgun-Variables': dumps(variables)},
