@@ -33,7 +33,7 @@ async def confirm_user(req, address, unique_id):
     if res.status_code != 200:
         return json(res.json(), status=res.status_code)
 
-    variables = res.json()['member']['vars']
+    variables = {**res.json()['member']['vars'], **{"address": address}}
 
     res = requests.post(
         "https://api.eu.mailgun.net/v3/padigitale2026.gov.it/messages",
