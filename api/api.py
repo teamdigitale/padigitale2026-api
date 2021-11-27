@@ -31,7 +31,7 @@ async def message(req):
         data={'secret': CAPTCHA_KEY,
               'response': captcha},
     )
-    if res.status_code != 200 or res.json.get('success') == False:
+    if res.status_code != 200 or res.json().get('success') == False:
         return json(res.json(), status=res.status_code)
 
     res = requests.post(
