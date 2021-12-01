@@ -10,13 +10,44 @@ from sanic.response import empty, json
 
 MAILGUN_KEY = os.environ.get('MAILGUN_KEY', '')
 JWT_KEY = os.environ.get('JWT_KEY', '')
+CAPTCHA_KEY = os.environ.get('CAPTCHA_KEY', '')
 
 bp = Blueprint("api", url_prefix="/api")
 
 @bp.options('/users')
+@bp.options('/messages')
 @bp.options('/<path:path>')
 async def preflight(_req, path=''):
     return empty()
+
+@bp.post('/messages')
+async def message(req):
+    address = req.json.get('address', '')
+    captcha = req.json.get('captcha', '')
+    fields = ['representative', 'messageSelect', 'message']
+
+    res = requests.post(
+        f"https://www.google.com/recaptcha/api/siteverify",
+        data={'secret': CAPTCHA_KEY,
+              'response': captcha},
+    )
+    if res.status_code != 200 or res.json().get('success') == False:
+        return json(res.json(), status=res.status_code)
+
+    res = requests.post(
+        "https://api.eu.mailgun.net/v3/padigitale2026.gov.it/messages",
+        auth=('api', MAILGUN_KEY),
+        data={'from': 'PA digitale 2026 <no-reply@padigitale2026.gov.it>',
+              'to': 'info@padigitale2026.gov.it',
+              'subject': f"Messaggio dal form - PA digitale 2026 - {address}",
+              'template': 'forward-email',
+              'h:Reply-To': address,
+              'h:X-Mailgun-Variables': dumps({k: req.json.get(k, '') for k in fields})},
+    )
+    if res.status_code != 200:
+        return json(res.json(), status=res.status_code)
+
+    return json({'message': 'ok'})
 
 @bp.put('/users/<address>/<unique_id>/confirm')
 async def confirm_user(req, address, unique_id):
@@ -29,21 +60,6 @@ async def confirm_user(req, address, unique_id):
         f"https://api.eu.mailgun.net/v3/lists/newsletter@padigitale2026.gov.it/members/{address}.{unique_id}",
         auth=('api', MAILGUN_KEY),
         data={'subscribed': 'yes'},
-    )
-    if res.status_code != 200:
-        return json(res.json(), status=res.status_code)
-
-    variables = {**res.json()['member']['vars'], **{"address": address}}
-
-    res = requests.post(
-        "https://api.eu.mailgun.net/v3/padigitale2026.gov.it/messages",
-        auth=('api', MAILGUN_KEY),
-        data={'from': 'PA digitale 2026 <no-reply@padigitale2026.gov.it>',
-              'to': 'info@padigitale2026.gov.it',
-              'subject': f"Messaggio dal form - PA digitale 2026 - {address}",
-              'template': 'forward-email',
-              'h:Reply-To': address,
-              'h:X-Mailgun-Variables': dumps(variables)},
     )
     if res.status_code != 200:
         return json(res.json(), status=res.status_code)

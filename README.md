@@ -1,45 +1,77 @@
-# ProssimaPA API
+# PA digitale 2026 API
 
-## `POST /api/users` 
+## `POST /api/messages`
+
 ```json
 {
- "address": "email.address@example.org",
- "representative": "Name Lastname",
- "ente": "Foobar",
- "enteType": "Foo",
- "enteSelect": "Baz",
- "messageSelect": "foo-bar",
- "message": "Hello world"
+  "address": "email.address@example.org",
+  "representative": "other",
+  "messageSelect": "foo-bar",
+  "message": "Hello world",
+  "captcha": "xxxx"
+}
+```
+### Response
+
+#### Ok
+
+HTTP code 200
+
+```json
+{ "message": "ok" }
+```
+#### Captcha verification failed
+
+HTTP code 400
+
+```json
+{ "message": "Captcha verification failed" }
+```
+## `POST /api/users`
+
+```json
+{
+  "address": "email.address@example.org",
+  "representative": "other",
+  "ente": "Foobar",
+  "enteType": "Foo",
+  "enteSelect": "Baz"
 }
 ```
 
 ### Response
+
 #### Ok
+
 HTTP code 200
+
 ```json
-{"message": "ok"}
-```
-#### Recipient already registered
-HTTP code 400
-```json
-{"message": "Address already exists 'email.address@example.org'"}
+{ "message": "ok" }
 ```
 
+
 ## `PUT /api/users/<address>/confirm`
+
 ```json
-{"jwt": "..."}
+{ "jwt": "..." }
 ```
 
 ### Response
+
 #### Ok
+
 HTTP code 200
+
 ```json
-{"message": "ok"}
+{ "message": "ok" }
 ```
+
 #### Signature verification failed
+
 HTTP code 400
+
 ```json
-{"message":"Signature verification failed"}
+{ "message": "Signature verification failed" }
 ```
 
 ## Dev running
