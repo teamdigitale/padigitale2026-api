@@ -50,7 +50,21 @@ HTTP code 200
 ```
 
 
-## `PUT /api/users/<address>/confirm`
+## `PATCH /api/users/<address>/<unique_id>/unsubscribe`
+
+no payload needed
+
+### Response
+
+#### Ok
+
+HTTP code 200
+
+```json
+{ "message": "ok" }
+```
+
+## `PUT /api/users/<address>/<unique_id>/confirm`
 
 ```json
 { "jwt": "..." }

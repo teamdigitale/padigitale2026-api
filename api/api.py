@@ -49,6 +49,18 @@ async def message(req):
 
     return json({'message': 'ok'})
 
+@bp.patch('/users/<address>/<unique_id>/unsubscribe')
+async def unsubscribe_user(req, address, unique_id):
+    res = requests.put(
+        f"https://api.eu.mailgun.net/v3/lists/newsletter@padigitale2026.gov.it/members/{address}.{unique_id}",
+        auth=('api', MAILGUN_KEY),
+        data={'subscribed': 'no'},
+    )
+    if res.status_code != 200:
+        return json(res.json(), status=res.status_code)
+
+    return json({'message': 'ok'})
+
 @bp.put('/users/<address>/<unique_id>/confirm')
 async def confirm_user(req, address, unique_id):
     try:
