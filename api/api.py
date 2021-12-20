@@ -76,6 +76,19 @@ async def confirm_user(req, address, unique_id):
     if res.status_code != 200:
         return json(res.json(), status=res.status_code)
 
+    res = requests.post(
+        "https://api.eu.mailgun.net/v3/padigitale2026.gov.it/messages",
+        auth=('api', MAILGUN_KEY),
+        data={'from': 'PA digitale 2026 <no-reply@padigitale2026.gov.it>',
+              'to': address,
+              'bcc': os.environ.get('REGISTRATION_BCC', ''),
+              'subject': 'PA digitale 2026 - Ti diamo il benvenuto',
+              'template': 'welcome-email',
+              'h:X-Mailgun-Variables': dumps({'address': address, 'uuid': unique_id})},
+    )
+    if res.status_code != 200:
+        return json(res.json(), status=res.status_code)
+
     return json({'message': 'ok'})
 
 @bp.post('/users')
