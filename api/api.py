@@ -95,16 +95,19 @@ async def confirm_user(req, address, unique_id):
 async def post_user(req):
     address = req.json.get('address', '')
     fields = ['representative', 'ente', 'enteType', 'enteSelect', 'messageSelect', 'message']
+    timestring = datetime.now(tz=timezone.utc).isoformat()
 
     # Make the new entry unique, so the user can send multiple messages even if
     # they are already subscribed
     unique_id = f"{uuid.uuid4()}"
+    vars = {k: req.json.get(k, '') for k in fields}
+    vars.update({'timestamp': timestring})
 
     res = requests.post(
         "https://api.eu.mailgun.net/v3/lists/newsletter@padigitale2026.gov.it/members",
         auth=('api', MAILGUN_KEY),
         data={'address': f"{address}.{unique_id}",
-              'vars': dumps({k: req.json.get(k, '') for k in fields}),
+              'vars': dumps(vars),
               'subscribed': 'no',
               'upsert': 'no'},
     )
