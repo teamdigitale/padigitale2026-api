@@ -60,6 +60,10 @@ async def message(req):
     captcha = req.json.get("captcha", "")
     area = req.json.get("area", "")
     fields = ["argument", "name", "subject", "description"]
+    vars = {k: req.json.get(k, "") for k in fields}
+    vars.update({"address": address})
+    vars.update({"area": area})
+
     area_mail = {
         "nord-est": os.environ.get("T_NORDEST_MAIL", ""),
         "lombardia": os.environ.get("T_LOMBARDIA_MAIL", ""),
@@ -88,7 +92,7 @@ async def message(req):
             "subject": f"Messaggio dal form - PA digitale 2026 - {address}",
             "template": "forward-territory-email",
             "h:Reply-To": address,
-            "h:X-Mailgun-Variables": dumps({k: req.json.get(k, "") for k in fields}),
+            "h:X-Mailgun-Variables": dumps(vars),
         },
     )
     if res.status_code != 200:
