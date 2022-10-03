@@ -16,6 +16,7 @@ bp = Blueprint("api", url_prefix="/api")
 
 
 @bp.options("/users")
+@bp.options("/territory/messages")
 @bp.options("/messages")
 @bp.options("/<path:path>")
 async def preflight(_req, path=""):
