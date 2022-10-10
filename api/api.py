@@ -59,7 +59,7 @@ async def message(req):
     address = req.json.get("address", "")
     captcha = req.json.get("captcha", "")
     area = req.json.get("area", "")
-    fields = ["argument", "name", "subject", "description"]
+    fields = ["phone", "name", "contact", "description"]
     vars = {k: req.json.get(k, "") for k in fields}
     vars.update({"address": address})
     vars.update({"area": area})
